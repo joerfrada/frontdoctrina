@@ -1,0 +1,54 @@
+<div class="login-box">
+    <div class="side-login">
+        <div class="inner-login">
+            <div class="logo">
+                <img src="../../assets/img/logo.png" alt="">
+            </div>
+            <div class="t">Ingreso Administrativo</div>
+            <div class="form">
+                <div class="r">
+                    <input type="text" placeholder="Usuario" [(ngModel)]="userData.usuario">
+                    <div class="i"><i class="fa-solid fa-user"></i></div>
+                </div>
+                <div class="r">
+                    <input type="password" placeholder="Contraseña" [(ngModel)]="userData.password">
+                    <div class="i"><i class="fa-solid fa-lock"></i></div>
+                </div>
+                <div class="r">
+                    <div class="login-submit transition pointer" (click)="loginAction()" [ngClass]="{color: loading}">
+                        <div *ngIf="!loading">Ingresar</div>
+                        <div *ngIf="loading" style="width: 20pt;margin: 0 auto;"><img src="../../assets/icon/loading_light.svg"></div>
+                    </div>
+                </div>
+                <div class="r">
+                    <div class="v">Versión. 0.0.5 | Dev 2022</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section *ngIf="show_loader == true">
+    <div class="loader">
+        <img src="../../../assets/img/logo_dipon.png">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+        <span style="--i:4;"></span>
+        <span style="--i:5;"></span>
+        <span style="--i:6;"></span>
+        <span style="--i:7;"></span>
+        <span style="--i:8;"></span>
+        <span style="--i:9;"></span>
+        <span style="--i:10;"></span>
+        <span style="--i:11;"></span>
+        <span style="--i:12;"></span>
+        <span style="--i:13;"></span>
+        <span style="--i:14;"></span>
+        <span style="--i:15;"></span>
+        <span style="--i:16;"></span>
+        <span style="--i:17;"></span>
+        <span style="--i:18;"></span>
+        <span style="--i:19;"></span>
+        <span style="--i:20;"></span>
+    </div>
+</section>

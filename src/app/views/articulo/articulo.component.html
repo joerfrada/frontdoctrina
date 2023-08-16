@@ -1,0 +1,150 @@
+<div class="crud-content">
+    <div class="header-crud">
+        <div class="t">Administración de Artículos</div>
+        <div class="options">
+            <div class="btn" (click)="modal = true"> <i class="fa-solid fa-circle-plus"></i> Nuevo Artículo</div>
+        </div>
+    </div>
+    <div class="table-crud">
+        <div class="thead">
+            <div class="th w20">Id</div>
+            <div class="th wflex">Nombre</div>
+            <div class="th w20">Categoría</div>
+            <div class="th w10">Acciones</div>
+        </div>
+        <div class="tbody-box">
+            <div class="tbody">
+                <div class="tr" *ngFor="let item of articles">
+                    <div class="td w20">{{item.articulo_id}}</div>
+                    <div class="td wflex">{{item.titulo}}</div>
+                    <div class="td w20">{{item.categoria}}</div>
+                    <div class="td w10" style="text-align: center;">
+                        <div class="ic"><i class="fa-solid fa-pen-to-square"></i></div>
+                        <div class="ic" (click)="selectArt(item.articulo_id)"><i class="fa-solid fa-trash-can"></i></div>
+                    </div>
+                </div>
+                <div class="tr empty" *ngIf="articles.length == 0">
+                    Sin datos 
+                </div>
+                <div class="loader" *ngIf="loading">
+                    <img src="../../assets/icon/loading.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="pag">
+        <div class="p">1</div>
+        <div class="p">2</div>
+        <div class="next">Próximo</div>
+    </div> -->
+</div>
+
+
+<div class="modal-creation-update" *ngIf="modal">
+    <div class="box-modal">
+        <div class="header">
+            <div class="title">Crear Artículo</div>
+            <div class="close" (click)="modal = false"><i class="fa-solid fa-times"></i></div>
+        </div>
+        <div class="content">
+            <div class="form">
+                <div class="form-box" *ngIf="!loadingmodal">
+                    <div class="r">
+                        <div class="l">Título</div>
+                        <div class="i"><input type="text" [(ngModel)]="article.titulo"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Subtítulo</div>
+                        <div class="i"><input type="text" [(ngModel)]="article.subtitulo"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Categoría</div>
+                        <div class="i">
+                            <select [(ngModel)]="article.categoria_id">
+                                <option value="0">Seleccionar...</option>
+                                <option *ngFor="let cat of categories" [value]="cat.categoria_id">{{cat.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Descripción</div>
+                        <div class="i"><textarea [(ngModel)]="article.descripcion"></textarea></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Keywords</div>
+                        <div class="i"><input type="text" [(ngModel)]="article.keywords"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">N° Páginas</div>
+                        <div class="i"><input type="number" [(ngModel)]="article.num_pagina"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Video Descripción</div>
+                        <div class="i"><input type="text" [(ngModel)]="article.videol"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Audio Descripción</div>
+                        <div class="i"><input type="text" [(ngModel)]="article.audiol"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Cover</div>
+                        <div class="i"><input type="file" (change)="onFileChangeCover($event)"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Documento</div>
+                        <div class="i"><input type="file" (change)="onFileChangeDoc($event)"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Audio</div>
+                        <div class="i"><input type="file" (change)="onFileChangeAudio($event)"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Video</div>
+                        <div class="i"><input type="file" (change)="onFileChangeVideo($event)"></div>
+                    </div>
+                    <div class="r">
+                        <div class="l">Recomendado</div>
+                        <div class="i"><input type="checkbox" [(ngModel)]="article.recomendado"></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="r">
+                    <div class="error" *ngIf="errormodal">
+                        Todos los campos son obligatorios
+                    </div>
+                </div>
+                <div class="r">
+                    <div class="btns">
+                        <div class="btn" *ngIf="!loadingmodal" (click)="closeModal()">
+                            <div class="text">Cancelar</div>
+                        </div>
+                        <div class="btn" (click)="createArticle()">
+                            <div class="text" *ngIf="!loadingmodal">Guardar</div>
+                            <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-confirm" *ngIf="confirm">
+    <div class="box-confirm">
+        <div class="header">
+            <div class="title">¿Está seguro que desea eliminar el articulo?</div>
+            <div class="close" (click)="confirm = false"><i class="fa-solid fa-times"></i></div>
+        </div>
+        <div class="content">
+            <div class="btns">
+                <div class="btn" (click)="confirm = false">
+                    <div class="text">Cancelar</div>
+                </div>
+                <div class="btn" (click)="delete()">
+                    <div class="text" *ngIf="!loadingmodal">Eliminar</div>
+                    <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

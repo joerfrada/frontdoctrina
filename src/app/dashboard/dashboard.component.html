@@ -1,0 +1,32 @@
+<div class="nav">
+    <div class="left-nav">
+        <div class="logo"><img src="../../assets/img/logo.png"></div>
+        <div class="title-nav">Sistema Administrativo</div>
+    </div>
+    <div class="right-nav">
+        <div class="item-nav pointer" (click)="logout()"> Salida Segura <i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+        <div class="item-nav">|</div>
+        <div class="item-nav">{{userData?.email}}</div>
+        <div class="item-nav">
+            <div class="avatar">
+                <img src="../../assets/img/avatar.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sidebar">
+    <div class="inner-sidebar">
+        <div class="item-sidebar" 
+        *ngFor="let menuItem of menu" 
+        [ngClass]="{selected: menuItem.id == actualView}"
+        (click)="goTab(menuItem)">
+            <i class="fa-solid {{menuItem.icon}}"></i>
+            <div class="l">{{menuItem.name}}</div>
+        </div>
+    </div>
+</div>
+<div class="content-box">
+    <div class="inner-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>
