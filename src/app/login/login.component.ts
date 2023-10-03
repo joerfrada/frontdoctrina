@@ -21,7 +21,13 @@ export class LoginComponent implements OnInit {
   error: boolean = false;
   show_loader = false;
 
-  constructor(private router: Router, private api: ApiService, private loginService: LoginService) { }
+  constructor(private router: Router, private api: ApiService, private loginService: LoginService) {
+    let t = localStorage.getItem("_expiredTime");
+    if (t != null || t != undefined) {
+      localStorage.removeItem("_expiredTime");
+    }
+    localStorage.setItem("isLoggedIn", "0");
+  }
 
   ngOnInit(): void {
   }
@@ -32,11 +38,14 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.userData).subscribe(data => {
       let response: any = this.api.ProcesarRespuesta(data);
       if (response.tipo == 0) {
+        this.loading = false;
+
         localStorage.setItem("currentUser", JSON.stringify(response.user.result));
+        localStorage.setItem("isLoggedIn", "1");
+        
         setTimeout(() => {
           this.router.navigate(['/dashboard/home']);
-        }, 2000);
-        this.loading = false;
+        }, 1000);        
       }
       else {
         Swal.fire({

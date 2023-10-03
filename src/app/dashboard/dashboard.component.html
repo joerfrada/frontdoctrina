@@ -6,10 +6,10 @@
     <div class="right-nav">
         <div class="item-nav pointer" (click)="logout()"> Salida Segura <i class="fa-solid fa-arrow-right-from-bracket"></i></div>
         <div class="item-nav">|</div>
-        <div class="item-nav">{{userData?.email}}</div>
+        <div class="item-nav">{{userData?.usuario}}</div>
         <div class="item-nav">
             <div class="avatar">
-                <img src="../../assets/img/avatar.jpg">
+                <img [src]="imgAvatar">
             </div>
         </div>
     </div>

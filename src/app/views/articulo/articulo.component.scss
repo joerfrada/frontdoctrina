@@ -1,0 +1,25 @@
+.iframe {
+    width: 100%;
+    height: 500px;
+}
+
+.box-preview-doc {
+    width: 850pt !important;
+    max-height: 90vh !important;
+}
+
+.box-preview-cover {
+    width: 400pt !important;
+    max-height: 90vh !important;
+}
+
+.img-cover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cover {
+    width: 60%;
+}

@@ -9,8 +9,11 @@ declare var Swal:any;
 })
 export class ApiService {
 
-  private baseurl = "http://localhost/doctrina/api/";
-  // private baseurl = "http://192.168.2.201/doctrina/api/";
+  private url = "http://192.168.1.22/doctrina/";
+  // private url = "https://apiadenunciarrnmc.policia.gov.co/doctrina/";
+
+  private baseurl = this.url + "api/";
+  private url_preview = this.url + "preview/";
 
   constructor() { }
 
@@ -54,6 +57,10 @@ export class ApiService {
 
   get getBaseUrl() {
     return this.baseurl;
+  }
+
+  get getPreviewUrl() {
+    return this.url_preview;
   }
 
   /* Error Exceptions */

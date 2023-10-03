@@ -2,7 +2,7 @@
     <div class="header-crud">
         <div class="t">Administración de Categorías</div>
         <div class="options">
-            <div class="btn" (click)="modal = true"> <i class="fa-solid fa-circle-plus"></i> Nueva Categoría</div>
+            <div class="btn" (click)="openCategoriaModal()"> <i class="fa-solid fa-circle-plus"></i> Nueva Categoría</div>
         </div>
     </div>
     <div class="table-crud">
@@ -19,7 +19,7 @@
                     <div class="td w10">{{item.orden}}</div>
                     <div class="td wflex">{{item.nombre}}</div>
                     <div class="td w10" style="text-align: center;">
-                        <div class="ic"><i class="fa-solid fa-pen-to-square"></i></div>
+                        <div class="ic" (click)="editCat(item)"><i class="fa-solid fa-pen-to-square"></i></div>
                         <div class="ic" (click)="selectCat(item.categoria_id)"><i class="fa-solid fa-trash-can"></i></div>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
 <div class="modal-creation-update" *ngIf="modal">
     <div class="box-modal">
         <div class="header">
-            <div class="title">Crear Categoría</div>
-            <div class="close" (click)="modal = false"><i class="fa-solid fa-times"></i></div>
+            <div class="title">{{title}}</div>
+            <div class="close" (click)="closeModal()"><i class="fa-solid fa-times"></i></div>
         </div>
         <div class="content">
             <div class="form">
@@ -69,8 +69,12 @@
                         <div class="btn" *ngIf="!loadingmodal" (click)="closeModal()">
                             <div class="text">Cancelar</div>
                         </div>
-                        <div class="btn" (click)="createCat()">
+                        <div class="btn" (click)="createCat()" *ngIf="IsEdit == false">
                             <div class="text" *ngIf="!loadingmodal">Guardar</div>
+                            <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
+                        </div>
+                        <div class="btn" (click)="updateCat()" *ngIf="IsEdit == true">
+                            <div class="text" *ngIf="!loadingmodal">Actualizar</div>
                             <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
                         </div>
                     </div>

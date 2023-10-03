@@ -13,6 +13,7 @@ declare var Swal:any;
 export class CategoriaComponent {
 
   cat: any = {
+    categoria_id: 0,
     nombre: '',
     orden: 1,
     usuario: ''
@@ -25,6 +26,8 @@ export class CategoriaComponent {
   errormodal: boolean = false;
   confirm: boolean = false;
   selectedCat = 0;
+  title: any;
+  IsEdit: boolean = false;
 
   currentUser: any;
 
@@ -63,10 +66,27 @@ export class CategoriaComponent {
     })
   }
 
+  openCategoriaModal() {
+    this.modal = true;
+    this.title = "Crear Categoría";
+    this.IsEdit = false;
+  }
+
+  editCat(data: any) {
+    this.modal = true;
+    this.title = "Actualizar Categoria";
+    this.IsEdit = true;
+
+    this.cat.categoria_id = data.categoria_id;
+    this.cat.nombre = data.nombre;
+    this.cat.orden = data.orden;
+  }
+
   closeModal() {
     this.modal = false;
     this.errormodal = false;
     this.cat = {
+      categoria_id: 0,
       nombre: '',
       orden: 0,
       usuario: this.currentUser.usuario
@@ -76,18 +96,35 @@ export class CategoriaComponent {
   createCat() {
     this.cat.usuario = this.currentUser.usuario;
 
-    for (let key in this.cat) {
-      if (this.cat[key] == '') {
-        this.errormodal = true;
-        return;
-      }
-    }
     this.loadingmodal = true;
     this.categoria.createCategorias(this.cat).subscribe(data => {
       let response: any = data;
       if (response.tipo == 0) {
         Swal.fire({
           title: 'Crear Categoría',
+          text: response.mensaje,
+          allowOutsideClick: false,
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          icon: 'success'
+        }).then((result: any) => {
+          this.modal = false;
+          this.loadingmodal = false;
+          this.reload();
+        });
+      }
+    })
+  }
+
+  updateCat() {
+    this.cat.usuario = this.currentUser.usuario;
+
+    this.loadingmodal = true;
+    this.categoria.updateCategorias(this.cat).subscribe(data => {
+      let response: any = data;
+      if (response.tipo == 0) {
+        Swal.fire({
+          title: 'Actualizar Categoría',
           text: response.mensaje,
           allowOutsideClick: false,
           showConfirmButton: true,

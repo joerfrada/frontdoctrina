@@ -6,10 +6,11 @@ import { AnalisisComponent } from '../views/analisis/analisis.component';
 import { CategoriaComponent } from '../views/categoria/categoria.component';
 import { ArticuloComponent } from '../views/articulo/articulo.component';
 import { SettingComponent } from '../views/setting/setting.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardComponent, children:
+    path: '', component: DashboardComponent, canActivateChild: [AuthGuard], children:
     [
       { path: 'home', component: HomeComponent },
       { path: 'categorias', component: CategoriaComponent },

@@ -11,6 +11,7 @@ export class CategoriaService {
 
   private apiGetCategorias = this.api.getBaseUrl + "categoria/getCategorias";
   private apiCreateCategorias = this.api.getBaseUrl + "categoria/crearCategorias";
+  private apiUpdateCategorias = this.api.getBaseUrl + "categoria/actualizarCategorias";
   private apiDeleteCategoria = this.api.getBaseUrl + "categoria/eliminarCategoria";
 
   constructor(private http: HttpClient, private api: ApiService) { }
@@ -22,6 +23,11 @@ export class CategoriaService {
 
   public createCategorias(data: any): Observable<any> {
     return this.http.post<any>(this.apiCreateCategorias, JSON.stringify(data), this.api.getHttpOptions('g'))
+    .pipe(retry(1), catchError(this.api.errorHandle));
+  }
+
+  public updateCategorias(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUpdateCategorias, JSON.stringify(data), this.api.getHttpOptions('g'))
     .pipe(retry(1), catchError(this.api.errorHandle));
   }
 

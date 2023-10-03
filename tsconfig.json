@@ -23,7 +23,8 @@
       "ES2022",
       "dom",
       "dom.iterable"
-    ]
+    ],
+    "allowJs": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

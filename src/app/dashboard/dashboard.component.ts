@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../servicios/api.service';
+import { LoginService } from '../servicios/auth/login.service';
+import IdleTimer from '../../assets/IdleTimer';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   menu: any = [
     {
@@ -45,21 +48,48 @@ export class DashboardComponent implements OnInit {
 
   userData: any;
 
-  constructor(private router: Router) {
+  timer: any;
+
+  imgAvatar: any;
+
+  constructor(private router: Router, private api: ApiService, private login: LoginService) {
     this.userData = JSON.parse(localStorage.getItem("currentUser") as any);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.login.getImagenFuncionario({ identificacion: this.userData.identificacion}).subscribe(data => {
+      let response: any = this.api.ProcesarRespuesta(data);
+      if (response.tipo == 0) {
+        this.imgAvatar = "../../assets/img/" + response.result;
+      }
+    });
+
+    let t = localStorage.getItem("_expiredTime");
+    if (t == null || t == undefined) {
+      localStorage.removeItem("_expiredTime");
+
+      this.timer = new IdleTimer({
+        timeout: 60 * 5, //expired after 10 min
+        onTimeout: () => {
+          this.logout();
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.timer = null;
+  }
 
   goTab(item: any) {
     this.actualView = item.id;
     this.router.navigate([item.tab]);
   }
 
-  logout(){
-    setTimeout(() => {
-      localStorage.clear();
-      this.router.navigate(['/']);    
+  logout() {
+    localStorage.clear();
+    setTimeout(() => {      
+      this.router.navigate(['login']);    
     }, 100);
   }
 

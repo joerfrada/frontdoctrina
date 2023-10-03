@@ -2,24 +2,31 @@
     <div class="header-crud">
         <div class="t">Administración de Artículos</div>
         <div class="options">
-            <div class="btn" (click)="modal = true"> <i class="fa-solid fa-circle-plus"></i> Nuevo Artículo</div>
+            <div class="btn" (click)="openArticuloModal()"> <i class="fa-solid fa-circle-plus"></i> Nuevo Artículo</div>
         </div>
     </div>
     <div class="table-crud">
         <div class="thead">
-            <div class="th w20">Id</div>
+            <div class="th w10">Id</div>
             <div class="th wflex">Nombre</div>
             <div class="th w20">Categoría</div>
+            <div class="th w20">Ver</div>
             <div class="th w10">Acciones</div>
         </div>
         <div class="tbody-box">
             <div class="tbody">
                 <div class="tr" *ngFor="let item of articles">
-                    <div class="td w20">{{item.articulo_id}}</div>
+                    <div class="td w10">{{item.articulo_id}}</div>
                     <div class="td wflex">{{item.titulo}}</div>
                     <div class="td w20">{{item.categoria}}</div>
+                    <div class="td w20">
+                        <div class="ic" (click)="openPreviewCover(item)" *ngIf="item.ruta_cover != null"><i class="fa-solid fa-image"></i></div>
+                        <div class="ic" (click)="openPreviewDoc(item)" *ngIf="item.ruta_doc != null"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="ic" *ngIf="item.ruta_audio != null"><i class="fa-solid fa-audio-description"></i></div>
+                        <div class="ic" *ngIf="item.ruta_video != null"><i class="fa-solid fa-video"></i></div>
+                    </div>
                     <div class="td w10" style="text-align: center;">
-                        <div class="ic"><i class="fa-solid fa-pen-to-square"></i></div>
+                        <div class="ic" (click)="editArticulo(item)"><i class="fa-solid fa-pen-to-square"></i></div>
                         <div class="ic" (click)="selectArt(item.articulo_id)"><i class="fa-solid fa-trash-can"></i></div>
                     </div>
                 </div>
@@ -43,8 +50,8 @@
 <div class="modal-creation-update" *ngIf="modal">
     <div class="box-modal">
         <div class="header">
-            <div class="title">Crear Artículo</div>
-            <div class="close" (click)="modal = false"><i class="fa-solid fa-times"></i></div>
+            <div class="title">{{title}}</div>
+            <div class="close" (click)="closeModal()"><i class="fa-solid fa-times"></i></div>
         </div>
         <div class="content">
             <div class="form">
@@ -118,8 +125,12 @@
                         <div class="btn" *ngIf="!loadingmodal" (click)="closeModal()">
                             <div class="text">Cancelar</div>
                         </div>
-                        <div class="btn" (click)="createArticle()">
+                        <div class="btn" (click)="createArticle()" *ngIf="IsEdit == false">
                             <div class="text" *ngIf="!loadingmodal">Guardar</div>
+                            <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
+                        </div>
+                        <div class="btn" (click)="updateArticle()" *ngIf="IsEdit == true">
+                            <div class="text" *ngIf="!loadingmodal">Actualizar</div>
                             <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
                         </div>
                     </div>
@@ -144,6 +155,32 @@
                     <div class="text" *ngIf="!loadingmodal">Eliminar</div>
                     <div class="text" *ngIf="loadingmodal"><i class="fas fa-circle-notch fa-spin"></i></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-preview" *ngIf="docModal">
+    <div class="box-preview-doc">
+        <div class="header">
+            <div class="title">Ver documento</div>
+            <div class="close" (click)="closePreviewDocModal()"><i class="fa-solid fa-times"></i></div>
+        </div>
+        <div class="content">
+            <div [innerHTML]="url" class="iframe"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-preview" *ngIf="coverModal">
+    <div class="box-preview-cover">
+        <div class="header">
+            <div class="title">Ver cover</div>
+            <div class="close" (click)="closePreviewCoverModal()"><i class="fa-solid fa-times"></i></div>
+        </div>
+        <div class="content">
+            <div class="img-cover">
+                <img [src]="url" class="cover shadow-dreamy">
             </div>
         </div>
     </div>
