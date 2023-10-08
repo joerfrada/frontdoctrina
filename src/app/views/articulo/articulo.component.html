@@ -20,10 +20,10 @@
                     <div class="td wflex">{{item.titulo}}</div>
                     <div class="td w20">{{item.categoria}}</div>
                     <div class="td w20">
-                        <div class="ic" (click)="openPreviewCover(item)" *ngIf="item.ruta_cover != null"><i class="fa-solid fa-image"></i></div>
-                        <div class="ic" (click)="openPreviewDoc(item)" *ngIf="item.ruta_doc != null"><i class="fa-solid fa-file-pdf"></i></div>
-                        <div class="ic" *ngIf="item.ruta_audio != null"><i class="fa-solid fa-audio-description"></i></div>
-                        <div class="ic" *ngIf="item.ruta_video != null"><i class="fa-solid fa-video"></i></div>
+                        <div class="ic" (click)="openPreviewCover(item)" *ngIf="item.existe_cover == 1"><i class="fa-solid fa-image"></i></div>
+                        <div class="ic" (click)="openPreviewDoc(item)" *ngIf="item.existe_doc == 1"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="ic" *ngIf="item.existe_audio == 1"><i class="fa-solid fa-audio-description"></i></div>
+                        <div class="ic" *ngIf="item.existe_video == 1"><i class="fa-solid fa-video"></i></div>
                     </div>
                     <div class="td w10" style="text-align: center;">
                         <div class="ic" (click)="editArticulo(item)"><i class="fa-solid fa-pen-to-square"></i></div>
