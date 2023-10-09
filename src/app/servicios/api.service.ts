@@ -9,8 +9,8 @@ declare var Swal:any;
 })
 export class ApiService {
 
-  private url = "http://192.168.1.171/doctrina/";
-  // private url = "https://apiadenunciarrnmc.policia.gov.co/doctrina/";
+  // private url = "http://192.168.1.171/doctrina/";
+  private url = "https://apiadenunciarrnmc.policia.gov.co/doctrina/";
 
   private baseurl = this.url + "api/";
   private url_preview = this.url + "preview/";
